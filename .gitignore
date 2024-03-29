@@ -1,0 +1,13 @@
+/.git
+/.idea
+*.log
+*.DS_Store
+/finance/runtime/
+/finance/vendor/
+/finance/vscode/
+/finance/settings/
+/finance/buildpath/
+/finance/project/
+.env
+composer.phar
+composer.lock
