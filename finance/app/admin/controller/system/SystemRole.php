@@ -3,21 +3,22 @@ declare (strict_types=1);
 
 namespace app\admin\controller\system;
 
-use app\admin\services\system\SystemUserServices;
+use app\admin\services\system\SystemRoleServices;
+use app\admin\validate\system\SystemRoleValidate;
 use app\BaseController;
+use think\App;
 use think\Request;
 use hg\apidoc\annotation as Apidoc;
 
-#[Apidoc\Title("用户管理")]
+#[Apidoc\Title("角色管理")]
 #[Apidoc\Group("system")]
-class SystemUser extends BaseController
+class SystemRole extends BaseController
 {
-
     /**
-     * @var SystemUserServices $services
+     * @var SystemRoleServices $services
      */
     public function __construct(
-        protected SystemUserServices $services,
+        protected SystemRoleServices $services,
     )
     {
     }
@@ -25,11 +26,14 @@ class SystemUser extends BaseController
     #[
         Apidoc\Title("列表"),
         Apidoc\Method("GET"),
-        Apidoc\Url("/adminapi/system/system_user"),
+        Apidoc\Url("/adminapi/system/system_role"),
         Apidoc\Query(name: "keywords", type: "string", require: false, desc: "姓名"),
     ]
     public function index()
     {
+        $rule = trim(strtolower(request()->rule()->getRule()));
+$module = trim(strtolower(request()->action()));
+        print_r($rule.'-'.$module);die;
         return app('json')->success(
             $this->services->pageQuery(
                 request()->get()
@@ -40,7 +44,7 @@ class SystemUser extends BaseController
     #[
         Apidoc\Title("创建显示"),
         Apidoc\Method("GET"),
-        Apidoc\Url("/adminapi/system/system_user/create"),
+        Apidoc\Url("/adminapi/system/system_role/create"),
     ]
     public function create()
     {
@@ -50,17 +54,13 @@ class SystemUser extends BaseController
     #[
         Apidoc\Title("创建"),
         Apidoc\Method("POST"),
-        Apidoc\Param(name: "username", type: "string", require: true, desc: "用户名"),
-        Apidoc\Param(name: "password", type: "string", require: true, desc: "密码"),
-        Apidoc\Param(name: "real_name", type: "string", require: true, desc: "真实姓名"),
-        Apidoc\Param(name: "head_pic", type: "string", require: true, desc: "头像"),
-        Apidoc\Param(name: "roles", type: "array", require: true, desc: "角色集合"),
-        Apidoc\Param(name: "dept", type: "int", require: false, default: 0, desc: "部门ID"),
-        Apidoc\Url("/adminapi/system/system_user"),
+        Apidoc\Param(name: "role_name", type: "string", require: true, desc: "名称"),
+        Apidoc\Param(name: "desc", type: "string", require: false, desc: "描述"),
+        Apidoc\Url("/adminapi/system/system_role"),
     ]
     public function save(Request $request)
     {
-        $this->services->addUser($request->post());
+        $this->services->addRole($request->post());
         return app('json')->success();
     }
 
@@ -68,12 +68,12 @@ class SystemUser extends BaseController
         Apidoc\Title("详情"),
         Apidoc\Method("GET"),
         Apidoc\RouteParam(name: "id", type: "int", require: true, desc: "主键ID"),
-        Apidoc\Url("/adminapi/system/system_user/{id}"),
+        Apidoc\Url("/adminapi/system/system_role/{id}"),
     ]
     public function read($id)
     {
         return app('json')->success(
-            $this->services->getUser((int)$id)
+            $this->services->getRole((int)$id)
         );
     }
 
@@ -81,15 +81,13 @@ class SystemUser extends BaseController
         Apidoc\Title("更新"),
         Apidoc\Method("PUT"),
         Apidoc\RouteParam(name: "id", type: "int", require: true, desc: "主键ID"),
-        Apidoc\Param(name: "real_name", type: "string", require: true, desc: "真实姓名"),
-        Apidoc\Param(name: "head_pic", type: "string", require: true, desc: "头像"),
-        Apidoc\Param(name: "roles", type: "array", require: true, desc: "角色集合"),
-        Apidoc\Param(name: "dept", type: "int", require: false, default: 0, desc: "部门ID"),
-        Apidoc\Url("/adminapi/system/system_user/{id}"),
+        Apidoc\Param(name: "role_name", type: "string", require: true, desc: "名称"),
+        Apidoc\Param(name: "desc", type: "string", require: false, desc: "描述"),
+        Apidoc\Url("/adminapi/system/system_role/{id}"),
     ]
     public function update(Request $request, int $id)
     {
-        $this->services->updateUser($request->put(), $id);
+        $this->services->updateRole($request->put(), $id);
         return app('json')->success();
     }
 

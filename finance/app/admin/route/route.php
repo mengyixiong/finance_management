@@ -13,13 +13,4 @@ use think\facade\Route;
 /**
  * 系统设置相关路由
  */
-Route::group('system', function () {
-    # 用户管理
-    Route::resource('system_user', 'system.SystemUser');
-
-    # 角色管理
-    Route::resource('system_role', 'system.SystemRole');
-
-    # 菜单管理
-    Route::resource('system_menu', 'system.SystemMenu');
-});
+Route::get('welcome', 'welcome/index');

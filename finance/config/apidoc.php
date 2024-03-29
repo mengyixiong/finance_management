@@ -7,6 +7,7 @@ return [
     // （必须）设置文档的应用/版本
     'apps' => [
         ['title' => '后台管理', 'path' => 'app\admin\controller', 'key' => 'admin', 'groups' => [
+            ['title' => '公共', 'name' => 'public'],
             ['title' => '认证', 'name' => 'auth'],
             ['title' => '基础资料', 'name' => 'finance_data'],
             ['title' => '系统设置', 'name' => 'system'],
