@@ -4,9 +4,9 @@ declare (strict_types=1);
 namespace app\admin\controller\system;
 
 use app\admin\services\system\SystemUserServices;
-use app\BaseController;
-use think\Request;
+use core\basic\BaseController;
 use hg\apidoc\annotation as Apidoc;
+use think\Request;
 
 #[Apidoc\Title("用户管理")]
 #[Apidoc\Group("system")]

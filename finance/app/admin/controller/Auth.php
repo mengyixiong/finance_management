@@ -1,17 +1,23 @@
 <?php
 
-namespace app\admin\controller\auth;
+namespace app\admin\controller;
 
-use app\BaseController;
+use core\basic\BaseController;
 use hg\apidoc\annotation as Apidoc;
+use think\App;
 
 /**
  * 授权控制器
  */
 #[Apidoc\Title("认证管理")]
-#[Apidoc\Group("auth")]
+#[Apidoc\Group("public")]
 class Auth extends BaseController
 {
+    public function __construct(App $app)
+    {
+        parent::__construct($app);
+    }
+
     #[
         Apidoc\Title("登录"),
         Apidoc\Tag("登录,login"),
@@ -23,6 +29,8 @@ class Auth extends BaseController
     ]
     public function login()
     {
+
+
         return 'hello world';
     }
 }

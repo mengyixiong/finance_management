@@ -2,7 +2,7 @@
 
 namespace app\admin\controller;
 
-use app\BaseController;
+use core\basic\BaseController;
 use hg\apidoc\annotation as Apidoc;
 
 #[Apidoc\Title("首页")]

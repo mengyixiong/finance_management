@@ -12,6 +12,8 @@
 namespace core\utils;
 
 
+use app\admin\exception\ApiException;
+use core\services\CacheService;
 use Firebase\JWT\JWT;
 use think\facade\Env;
 
@@ -93,7 +95,7 @@ class JwtAuth
         $exp = $tokenInfo['params']['exp'] - $tokenInfo['params']['iat'] + 60;
         $res = CacheService::set(md5($tokenInfo['token']), ['uid' => $id, 'type' => $type, 'token' => $tokenInfo['token'], 'exp' => $exp], (int)$exp, $type);
         if (!$res) {
-            throw new AdminException(100023);
+            throw new ApiException("用户登录失败，请重试");
         }
         return $tokenInfo;
     }

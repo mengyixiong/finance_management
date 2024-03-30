@@ -4,9 +4,10 @@ declare (strict_types=1);
 namespace app\admin\controller\system;
 
 use app\admin\services\system\SystemMenuServices;
-use app\BaseController;
-use think\Request;
+use core\basic\BaseController;
 use hg\apidoc\annotation as Apidoc;
+use think\facade\App;
+use think\Request;
 
 #[Apidoc\Title("菜单管理")]
 #[Apidoc\Group("system")]
@@ -14,12 +15,15 @@ class SystemMenu extends BaseController
 {
 
     /**
-     * @var SystemMenuServices $services
+     * @param App $app
+     * @param SystemMenuServices $services
      */
     public function __construct(
+        App                          $app,
         protected SystemMenuServices $services,
     )
     {
+        parent::__construct($app);
     }
 
     #[
@@ -77,7 +81,7 @@ class SystemMenu extends BaseController
     public function read($id)
     {
         return app('json')->success(
-            $this->services->getUser((int)$id)
+            $this->services->getMenu((int)$id)
         );
     }
 
@@ -99,7 +103,7 @@ class SystemMenu extends BaseController
     ]
     public function update(Request $request, int $id)
     {
-        $this->services->updateUser($request->put(), $id);
+        $this->services->updateMenu($request->put(), $id);
         return app('json')->success();
     }
 

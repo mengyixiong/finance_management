@@ -10,7 +10,11 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-/**
- * 系统设置相关路由
- */
+# 首页设置
 Route::get('welcome', 'welcome/index');
+
+# 认证相关
+Route::group('auth', function () {
+    # 登录
+    Route::post('login', 'auth.auth/login');
+});

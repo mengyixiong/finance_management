@@ -3,9 +3,9 @@ declare (strict_types = 1);
 
 namespace app\admin\controller\finance_data;
 
-use app\BaseController;
-use think\Request;
+use core\basic\BaseController;
 use hg\apidoc\annotation as Apidoc;
+use think\Request;
 
 #[Apidoc\Title("会计科目")]
 #[Apidoc\Group("finance_data")]

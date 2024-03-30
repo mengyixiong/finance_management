@@ -4,11 +4,9 @@ declare (strict_types=1);
 namespace app\admin\controller\system;
 
 use app\admin\services\system\SystemRoleServices;
-use app\admin\validate\system\SystemRoleValidate;
-use app\BaseController;
-use think\App;
-use think\Request;
+use core\basic\BaseController;
 use hg\apidoc\annotation as Apidoc;
+use think\Request;
 
 #[Apidoc\Title("角色管理")]
 #[Apidoc\Group("system")]
@@ -31,9 +29,6 @@ class SystemRole extends BaseController
     ]
     public function index()
     {
-        $rule = trim(strtolower(request()->rule()->getRule()));
-$module = trim(strtolower(request()->action()));
-        print_r($rule.'-'.$module);die;
         return app('json')->success(
             $this->services->pageQuery(
                 request()->get()
@@ -55,6 +50,7 @@ $module = trim(strtolower(request()->action()));
         Apidoc\Title("创建"),
         Apidoc\Method("POST"),
         Apidoc\Param(name: "role_name", type: "string", require: true, desc: "名称"),
+        Apidoc\Param(name: "menus", type: "array", require: false, desc: "菜单"),
         Apidoc\Param(name: "desc", type: "string", require: false, desc: "描述"),
         Apidoc\Url("/adminapi/system/system_role"),
     ]
@@ -82,6 +78,7 @@ $module = trim(strtolower(request()->action()));
         Apidoc\Method("PUT"),
         Apidoc\RouteParam(name: "id", type: "int", require: true, desc: "主键ID"),
         Apidoc\Param(name: "role_name", type: "string", require: true, desc: "名称"),
+        Apidoc\Param(name: "menus", type: "array", require: false, desc: "菜单"),
         Apidoc\Param(name: "desc", type: "string", require: false, desc: "描述"),
         Apidoc\Url("/adminapi/system/system_role/{id}"),
     ]
