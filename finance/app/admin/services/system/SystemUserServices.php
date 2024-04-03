@@ -6,7 +6,8 @@ namespace app\admin\services\system;
 use app\admin\exception\ApiException;
 use app\admin\model\system\SystemUserModel;
 use app\admin\services\BaseService;
-use app\admin\validate\system\SystemRoleValidate;
+use app\admin\validate\system\SystemUserValidate;
+use core\traits\PasswordEncoder;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 
@@ -15,9 +16,11 @@ use think\db\exception\ModelNotFoundException;
  */
 class SystemUserServices extends BaseService
 {
+    use PasswordEncoder;
+
     public function __construct(
         protected SystemUserModel    $model,
-        protected SystemRoleValidate $validate
+        protected SystemUserValidate $validate
     )
     {
     }
@@ -52,7 +55,7 @@ class SystemUserServices extends BaseService
     {
         # 验证
         if (!$this->validate->scene('create')->check($post)) {
-            throw new ApiException($this->validate->getError());
+            $this->apiException($this->validate->getError());
         }
 
         # 头像为空使用默认头像
@@ -66,7 +69,7 @@ class SystemUserServices extends BaseService
         try {
             return $this->model->save($post);
         } catch (\Throwable $e) {
-            throw new ApiException($e->getMessage());
+            $this->apiException('添加管理员失败', $e);
         }
     }
 

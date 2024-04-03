@@ -2,11 +2,9 @@
 
 namespace app\admin\services;
 
+use core\traits\ExceptionFail;
+
 class BaseService
 {
-    public function passwordHash($pwd)
-    {
-        return password_hash($pwd, PASSWORD_BCRYPT);
-    }
-
+    use ExceptionFail;
 }

@@ -16,5 +16,5 @@ Route::get('welcome', 'welcome/index');
 # 认证相关
 Route::group('auth', function () {
     # 登录
-    Route::post('login', 'auth.auth/login');
+    Route::post('login', 'auth/login');
 });

@@ -1,4 +1,5 @@
 <?php
+
 namespace core\utils;
 
 use think\Response;
@@ -62,5 +63,12 @@ class Json
             $msg = 'success';
         }
         return $this->success($msg, compact('status', 'result'));
+    }
+
+    public function print($data)
+    {
+        echo "<pre>";
+        print_r($data);
+        die;
     }
 }

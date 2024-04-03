@@ -12,6 +12,7 @@
 namespace core\services;
 
 use core\services\LockService;
+use core\traits\ExceptionFail;
 use think\facade\Cache;
 use think\facade\Config;
 use think\cache\TagSet;

@@ -18,7 +18,6 @@ class SystemUserValidate extends Validate
         'username' => 'require|length:6,16',
         'password' => 'require|length:6,16',
         'real_name' => 'require|length:2,16',
-        'roles' => 'require|array',
         'dept' => 'require|integer',
     ];
 
@@ -36,8 +35,6 @@ class SystemUserValidate extends Validate
         'password.length' => '密码长度为6-16位',
         'real_name.require' => '真实姓名不能为空',
         'real_name.length' => '真实姓名长度为2-16位',
-        'roles.require' => '角色不能为空',
-        'roles.array' => '角色格式错误',
         'dept.require' => '部门不能为空',
         'dept.integer' => '部门格式错误',
     ];
@@ -50,13 +47,11 @@ class SystemUserValidate extends Validate
             'username',
             'password',
             'real_name',
-            'roles',
             'dept',
         ],
 
         'update' => [
             'real_name',
-            'roles',
             'dept',
         ],
 

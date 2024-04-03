@@ -14,6 +14,7 @@ namespace core\utils;
 
 use app\admin\exception\ApiException;
 use core\services\CacheService;
+use core\traits\ExceptionFail;
 use Firebase\JWT\JWT;
 use think\facade\Env;
 
@@ -24,6 +25,7 @@ use think\facade\Env;
  */
 class JwtAuth
 {
+    use ExceptionFail;
 
     /**
      * token
@@ -40,7 +42,7 @@ class JwtAuth
      */
     public function getToken($id, string $type, array $params = []): array
     {
-        $host = app()->request->host();
+        $host = app('request')->host();
         $time = time();
         $exp_time = strtotime('+ 30day');
         $params += [
@@ -51,8 +53,10 @@ class JwtAuth
             'exp' => $exp_time,
         ];
         $params['jti'] = compact('id', 'type');
-        $token = JWT::encode($params, Env::get('app.app_key', 'default'));
-
+        $token = JWT::encode($params,
+            env('app.app_key', 'default'),
+            env('app.app_alg', 'HS256')
+        );
         return compact('token', 'params');
     }
 
@@ -93,9 +97,14 @@ class JwtAuth
     {
         $tokenInfo = $this->getToken($id, $type, $params);
         $exp = $tokenInfo['params']['exp'] - $tokenInfo['params']['iat'] + 60;
-        $res = CacheService::set(md5($tokenInfo['token']), ['uid' => $id, 'type' => $type, 'token' => $tokenInfo['token'], 'exp' => $exp], (int)$exp, $type);
+        $res = CacheService::set(
+            md5($tokenInfo['token']),
+            ['uid' => $id, 'type' => $type, 'token' => $tokenInfo['token'], 'exp' => $exp],
+            (int)$exp,
+            $type
+        );
         if (!$res) {
-            throw new ApiException("用户登录失败，请重试");
+            $this->apiException("用户登录失败，请重试");
         }
         return $tokenInfo;
     }
